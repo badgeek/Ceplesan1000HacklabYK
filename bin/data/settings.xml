@@ -1,0 +1,11 @@
+<?xml version="1.0"?>
+<PS3EYE>
+	<Autogain>1</Autogain>
+	<Autobalance>0</Autobalance>
+	<Brightness>169</Brightness>
+	<Contrast>37</Contrast>
+	<R>112</R>
+	<G>135</G>
+	<B>128</B>
+	<Threshold>80</Threshold>
+</PS3EYE>
