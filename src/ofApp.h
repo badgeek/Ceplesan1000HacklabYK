@@ -12,14 +12,11 @@
 #include "ofxOsc.h"
 #include "ofxOscParameterSync.h"
 #include "ofxGui.h"
-#include "videomanager.h"
 #include "ofxSceneManager.h"
+#include "ofxPostGlitch.h"
 
+#include "videomanager.h"
 
-struct struct_scene_jentik_assets {
-    ofImage mask;
-//    ofTexture mask;
-};
 
 class ofApp: public ofBaseApp
 {
@@ -31,22 +28,25 @@ public:
     void guiSave();
     void guiLoad();
     void keyPressed(int key) override;
+    void keyReleased(int key) override;
 
 //    /// The buffer of images.
 //    std::vector<ofTexture> frameBuffer;
 
     ofxOscSender sender;
     ofxOscReceiverSettings receiver;
+    ofxOscParameterSync sync;
 
     ofxPanel gui;
-    ofxOscParameterSync sync;
     ofParameterGroup parameters;
-
-    ofxPanel btnpanel;
     ofxButton btntest;
+
+    ofxSceneManager sceneManager;
 
     videoManager jentikcam;
 
-    struct_scene_jentik_assets scene_jentik_assets;
+    ofFbo effectsFBO;
+    ofxPostGlitch fxGlitch;
 
+    bool bFullScreen;
 };

@@ -7,6 +7,7 @@
 #include "ofxOscParameterSync.h"
 #include "ofxGui.h"
 #include "ofxPS3EyeGrabber.h"
+#include "ofxOsc.h"
 
 struct jentik_param{
     ofParameter<bool> ps3_autobalance;
@@ -50,6 +51,7 @@ private:
     ofxCvGrayscaleImage     grayDiff;
     ofxCvContourFinder      contourFinder;
 
+    ofxOscSender sender;
 
     jentik_param param;
 

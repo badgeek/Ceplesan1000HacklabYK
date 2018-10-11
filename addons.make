@@ -5,3 +5,4 @@ ofxOsc
 ofxGui
 ofxSceneManager
 ofxEasing
+ofxPostGlitch

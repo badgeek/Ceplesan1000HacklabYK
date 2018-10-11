@@ -1,11 +1,27 @@
 <?xml version="1.0"?>
 <PS3EYE>
 	<Autogain>1</Autogain>
-	<Autobalance>0</Autobalance>
-	<Brightness>169</Brightness>
+	<Autobalance>1</Autobalance>
+	<Brightness>20</Brightness>
 	<Contrast>37</Contrast>
-	<R>112</R>
-	<G>135</G>
+	<R>128</R>
+	<G>128</G>
 	<B>128</B>
 	<Threshold>80</Threshold>
+	<DrawX>101</DrawX>
+	<DrawY>43</DrawY>
+	<DrawScale>1.54589</DrawScale>
 </PS3EYE>
+<IMGANALYZER>
+	<Autogain>1</Autogain>
+	<Autobalance>1</Autobalance>
+	<Brightness>56</Brightness>
+	<Contrast>28</Contrast>
+	<R>108</R>
+	<G>79</G>
+	<B>161</B>
+	<Threshold>81</Threshold>
+	<DrawX>166</DrawX>
+	<DrawY>-1</DrawY>
+	<DrawScale>1.60658</DrawScale>
+</IMGANALYZER>

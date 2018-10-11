@@ -12,11 +12,14 @@ Project{
         name: { return FileInfo.baseName(sourceDirectory) }
 
         files: [
+            "src/ImageScene.cpp",
+            "src/ImageScene.h",
+            "src/WebcamScene.h",
             "src/videomanager.cpp",
             "src/videomanager.h",
-            'src/main.cpp',
-            'src/ofApp.cpp',
-            'src/ofApp.h',
+            "src/main.cpp",
+            "src/ofApp.cpp",
+            "src/ofApp.h",
         ]
 
         // This project is using addons.make to include the addons
@@ -28,6 +31,20 @@ Project{
         //     'ofxGui',
         //     'ofxOpenCv',
         // ]
+
+        of.addons: [
+'ofxKinect',
+'ofxOpenCv',
+'ofxPS3EyeGrabber',
+'ofxOsc',
+'ofxGui',
+'ofxSceneManager',
+'ofxEasing',
+'ofxBlobTracker',
+'ofxPostGlitch'
+
+
+        ]
 
         // additional flags for the project. the of module sets some
         // flags by default to add the core libraries, search paths...

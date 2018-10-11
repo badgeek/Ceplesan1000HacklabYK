@@ -1,5 +1,9 @@
 #include "videomanager.h"
 
+
+#define HOST "localhost"
+#define PORT 12345
+
 #define CAM_W 640
 #define CAM_H 480
 
@@ -25,7 +29,7 @@ void videoManager::setup()
     grayBg.allocate(CAM_W,CAM_H);
     grayDiff.allocate(CAM_W,CAM_H);
 
-    parameters.setName("PS3EYE");
+    parameters.setName("IMGANALYZER");
     parameters.add(param.ps3_autogain.set("Autogain", ps3eye->getAutogain()));
     parameters.add(param.ps3_autobalance.set("Autobalance", ps3eye->getAutoWhiteBalance()));
     parameters.add(param.ps3_brightness.set("Brightness",ps3eye->getBrightness(),0,255));
@@ -36,9 +40,11 @@ void videoManager::setup()
     parameters.add(param.ps3_threshold.set("Threshold",threshold,0,255));
     parameters.add(param.ps3_draw_x.set("DrawX",0,-2000,2000));
     parameters.add(param.ps3_draw_y.set("DrawY",0,-2000,2000));
-    parameters.add(param.ps3_draw_scale.set("DrawScale",2,0,100));
+    parameters.add(param.ps3_draw_scale.set("DrawScale",2,-100.0,100.0));
 
     ofAddListener(parameters.parameterChangedE(), this, &videoManager::listenerFunction);
+
+    sender.setup(HOST, PORT);
 
 }
 
@@ -58,12 +64,12 @@ void videoManager::listenerFunction(ofAbstractParameter& e){
 
     if (param_name == "G")
     {
-        ps3eye->setRedBalance(param.ps3_green);
+        ps3eye->setGreenBalance(param.ps3_green);
     }
 
     if (param_name == "B")
     {
-        ps3eye->setGreenBalance(param.ps3_blue);
+        ps3eye->setBlueBalance(param.ps3_blue);
     }
 
     if (param_name == "Brightness")
@@ -83,7 +89,7 @@ void videoManager::listenerFunction(ofAbstractParameter& e){
 
     if (param_name == "Autobalance")
     {
-        ps3eye->setAutogain(param.ps3_autobalance);
+        ps3eye->setAutoWhiteBalance(param.ps3_autobalance);
     }
 
     if (param_name == "Threshold")
@@ -142,13 +148,13 @@ void videoManager::update()
         contourFinder.findContours(grayDiff, 100, (CAM_W*CAM_H)/3, 10, false);	// find holes
 
 
-//        for (int i = 0; i < contourFinder.nBlobs; i++){
-//            ofxOscMessage m;
-//                    m.setAddress("/jentik" + ofToString(i));
-//                    m.addFloatArg(contourFinder.blobs[i].centroid.x);
-//                    m.addFloatArg(contourFinder.blobs[i].centroid.y);
-//                    sender.sendMessage(m, false);
-//        }
+        for (int i = 0; i < contourFinder.nBlobs; i++){
+            ofxOscMessage m;
+                    m.setAddress("/jentik" + ofToString(i));
+                    m.addFloatArg(contourFinder.blobs[i].centroid.x);
+                    m.addFloatArg(contourFinder.blobs[i].centroid.y);
+                    sender.sendMessage(m, false);
+        }
 //        if (isRecording)
 //        {
 //            auto frames = grabber.getGrabber<ofxPS3EyeGrabber>()->getAllFrames();

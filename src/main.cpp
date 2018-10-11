@@ -11,7 +11,7 @@
 int main()
 {
     ofGLWindowSettings settings;
-    settings.setSize(1280, 480);
+    settings.setSize(1280, 800);
     ofCreateWindow(settings);
     return ofRunApp(std::make_shared<ofApp>());
 }
