@@ -181,7 +181,9 @@ void videoManager::draw()
         colorImg.draw(0,0);
         ofPushStyle();
             ofNoFill();
-            ofSetHexColor(0xffffff);
+            ofSetLineWidth(3);
+            ofSetColor(ofColor::white);
+//            ofSetHexColor(ofColor::green);
             for (int i = 0; i < contourFinder.nBlobs; i++){
                     ofDrawRectangle(contourFinder.blobs[i].boundingRect);
              }

@@ -23,7 +23,7 @@ void ImageScene::update() {
 
 void ImageScene::draw() {
     ofClear(ofColor::black);
-    _background.draw(0,0,_width,_height);
+    _background.draw(0,0);
 }
 
 void ImageScene::willFadeIn() {

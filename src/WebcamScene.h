@@ -28,7 +28,6 @@ public:
     void draw(){
         ofClear(ofColor::black);
             ofPushMatrix();
-                ofScale( 1.125 ,1.125);
                 ofBackground(0);
                 videoMan->draw();
                 scene_jentik_assets.mask.draw(0,0);

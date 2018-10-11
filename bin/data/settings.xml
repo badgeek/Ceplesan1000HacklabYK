@@ -13,15 +13,15 @@
 	<DrawScale>1.54589</DrawScale>
 </PS3EYE>
 <IMGANALYZER>
-	<Autogain>1</Autogain>
-	<Autobalance>1</Autobalance>
-	<Brightness>56</Brightness>
-	<Contrast>28</Contrast>
-	<R>108</R>
-	<G>79</G>
-	<B>161</B>
-	<Threshold>81</Threshold>
-	<DrawX>166</DrawX>
-	<DrawY>-1</DrawY>
-	<DrawScale>1.60658</DrawScale>
+	<Autogain>0</Autogain>
+	<Autobalance>0</Autobalance>
+	<Brightness>87</Brightness>
+	<Contrast>94</Contrast>
+	<R>148</R>
+	<G>121</G>
+	<B>132</B>
+	<Threshold>46</Threshold>
+	<DrawX>264</DrawX>
+	<DrawY>30</DrawY>
+	<DrawScale>1.37521</DrawScale>
 </IMGANALYZER>

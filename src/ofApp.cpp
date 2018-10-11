@@ -29,6 +29,11 @@ void ofApp::setup()
     gui.setup(jentikcam.parameters);
     gui.add(btntest.setup("DESTROY"));
 
+
+    cout << ofGetWidth() << "\n";
+    cout << ofGetHeight() << "\n";
+
+
     ofAddListener(gui.savePressedE, this, &ofApp::guiSave);
     ofAddListener(gui.loadPressedE, this, &ofApp::guiLoad);
 
@@ -45,6 +50,10 @@ void ofApp::setup()
 
     effectsFBO.allocate(ofGetWidth(), ofGetHeight());
     fxGlitch.setup(&effectsFBO);
+
+    light.setup("192.168.43.66", 8888);
+
+    bGui = false;
 
 }
 
@@ -76,7 +85,8 @@ void ofApp::draw()
     ofBackground(0);
     fxGlitch.generateFx();
     effectsFBO.draw(0,0);
-    gui.draw();
+
+    if(bGui) gui.draw();
 }
 
 void ofApp::keyPressed(int key)
@@ -88,9 +98,18 @@ void ofApp::keyPressed(int key)
         case 'f':
             ofToggleFullscreen();
             break;
+        case 'b':
+            bGui = !bGui;
+        break;
         case ' ':
             sceneManager.changeScene();
             break;
+        case 'l':
+                ofxOscMessage m;
+                m.setAddress("/relay");
+                m.addFloatArg(1.0f);
+                light.sendMessage(m, false);
+        break;
     }
 
     if (key == '1') fxGlitch.setFx(OFXPOSTGLITCH_CONVERGENCE	, true);
@@ -109,6 +128,10 @@ void ofApp::keyPressed(int key)
     if (key == 'r') fxGlitch.setFx(OFXPOSTGLITCH_CR_GREENRAISE	, true);
     if (key == 't') fxGlitch.setFx(OFXPOSTGLITCH_CR_BLUEINVERT	, true);
     if (key == 'y') fxGlitch.setFx(OFXPOSTGLITCH_CR_REDINVERT	, true);
+
+
+
+
 }
 
 void ofApp::keyReleased(int key)
