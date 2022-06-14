@@ -15,6 +15,7 @@ Project{
             "src/ImageScene.cpp",
             "src/ImageScene.h",
             "src/WebcamScene.h",
+            "src/framediffer.h",
             "src/videomanager.cpp",
             "src/videomanager.h",
             "src/main.cpp",
@@ -41,9 +42,8 @@ Project{
 'ofxSceneManager',
 'ofxEasing',
 'ofxBlobTracker',
-'ofxPostGlitch'
-
-
+'ofxPostGlitch',
+'ofxGLWarper'
         ]
 
         // additional flags for the project. the of module sets some

@@ -14,7 +14,8 @@
 #include "ofxGui.h"
 #include "ofxSceneManager.h"
 #include "ofxPostGlitch.h"
-
+#include "ofxGLWarper.h"
+#include "framediffer.h"
 #include "videomanager.h"
 
 
@@ -33,6 +34,10 @@ public:
 //    /// The buffer of images.
 //    std::vector<ofTexture> frameBuffer;
 
+
+    vector <FrameDiffer*> frameDifferCol;
+
+
     ofxOscSender light;
     ofxOscReceiverSettings receiver;
     ofxOscParameterSync sync;
@@ -48,7 +53,10 @@ public:
     ofFbo effectsFBO;
     ofxPostGlitch fxGlitch;
     ofxOscSender sender;
+    ofxGLWarper warper;
+
 
     bool bFullScreen;
     bool bGui;
+    bool bMask;
 };

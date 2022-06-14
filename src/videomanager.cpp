@@ -27,7 +27,9 @@ void videoManager::setup()
     colorImg.allocate(CAM_W,CAM_H);
     grayImage.allocate(CAM_W,CAM_H);
     grayBg.allocate(CAM_W,CAM_H);
-    grayDiff.allocate(CAM_W,CAM_H);
+    grayDiff.allocate(CAM_W,CAM_W);
+
+    videoSource.allocate(CAM_W, CAM_H, OF_IMAGE_COLOR);
 
     parameters.setName("IMGANALYZER");
     parameters.add(param.ps3_autogain.set("Autogain", ps3eye->getAutogain()));
@@ -131,6 +133,7 @@ void videoManager::update()
 
     if (grabber.isFrameNew())
     {
+        videoSource.setFromPixels(grabber.getPixelsRef());
 
         colorImg.setFromPixels(grabber.getPixels());
         grayImage = colorImg;
@@ -150,7 +153,7 @@ void videoManager::update()
 
         for (int i = 0; i < contourFinder.nBlobs; i++){
             ofxOscMessage m;
-                    m.setAddress("/jentik" + ofToString(i));
+                    m.setAddress("/trowacv/jentik" + ofToString(i));
                     m.addFloatArg(contourFinder.blobs[i].centroid.x);
                     m.addFloatArg(contourFinder.blobs[i].centroid.y);
                     sender.sendMessage(m, false);

@@ -1,4 +1,4 @@
-#ifndef VIDEOMANAGER_H
+    #ifndef VIDEOMANAGER_H
 #define VIDEOMANAGER_H
 
 #include "ofMain.h"
@@ -50,6 +50,7 @@ private:
     ofxCvGrayscaleImage     grayBg;
     ofxCvGrayscaleImage     grayDiff;
     ofxCvContourFinder      contourFinder;
+    ofImage                 videoSource;
 
     ofxOscSender sender;
 

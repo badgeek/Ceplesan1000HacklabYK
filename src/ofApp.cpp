@@ -17,7 +17,8 @@
 void ofApp::setup()
 {
     ofEnableAlphaBlending();
-    ofSetFrameRate(60);
+//    ofSetFrameRate();
+    ofSetFrameRate(29);
     ofSetVerticalSync(true);
     ofToggleFullscreen();
 
@@ -38,11 +39,10 @@ void ofApp::setup()
     ofAddListener(gui.loadPressedE, this, &ofApp::guiLoad);
 
 //  sync.setup(jentikcam.parameters, 8888, "127.0.0.1", 9999);
-
     //Add scene
-    sceneManager.addScene(ofPtr<ofxScene>(new ImageScene("scene1.png")));
-    sceneManager.addScene(ofPtr<ofxScene>(new ImageScene("scene2.png")));
+//    sceneManager.addScene(ofPtr<ofxScene>(new ImageScene("scene1.png")));
     sceneManager.addScene(ofPtr<ofxScene>(new WebcamScene(&jentikcam)));
+//    sceneManager.addScene(ofPtr<ofxScene>(new ImageScene("scene2.png")));
 
     sceneManager.setTransitionDissolve();
     sceneManager.setSceneDuration(3,3);
@@ -54,6 +54,15 @@ void ofApp::setup()
     light.setup("192.168.43.66", 8888);
 
     bGui = false;
+    bMask = true;
+
+    warper.setup();
+    warper.activate();
+
+    cout << ofGetWidth();
+    cout << ofGetHeight();
+
+
 
 }
 
@@ -82,11 +91,15 @@ void ofApp::update()
 
 void ofApp::draw()
 {
+//    warper.begin();	///all the things that are drawn AFTER ofxGLWarper's begin method are afected by it.
+//    warper.draw();
     ofBackground(0);
     fxGlitch.generateFx();
     effectsFBO.draw(0,0);
+//    warper.end();
 
     if(bGui) gui.draw();
+
 }
 
 void ofApp::keyPressed(int key)
@@ -101,9 +114,9 @@ void ofApp::keyPressed(int key)
         case 'b':
             bGui = !bGui;
         break;
-        case ' ':
-            sceneManager.changeScene();
-            break;
+//        case ' ':
+//            sceneManager.changeScene();
+//            break;
         case 'l':
                 ofxOscMessage m;
                 m.setAddress("/relay");
@@ -111,6 +124,7 @@ void ofApp::keyPressed(int key)
                 light.sendMessage(m, false);
         break;
     }
+
 
     if (key == '1') fxGlitch.setFx(OFXPOSTGLITCH_CONVERGENCE	, true);
     if (key == '2') fxGlitch.setFx(OFXPOSTGLITCH_GLOW			, true);

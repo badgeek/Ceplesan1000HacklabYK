@@ -1,8 +1,10 @@
+ofxEasing
+ofxGLWarper
+ofxGui
 ofxKinect
 ofxOpenCv
-ofxPS3EyeGrabber
 ofxOsc
-ofxGui
-ofxSceneManager
-ofxEasing
+ofxPS3EyeGrabber
 ofxPostGlitch
+ofxMSAInteractiveObject
+ofxSceneManager
