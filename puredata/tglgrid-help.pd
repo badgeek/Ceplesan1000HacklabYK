@@ -1,0 +1,173 @@
+#N canvas 370 77 1440 799 10;
+#X text -234 -162 A tglgrid is a grid of cells that can each be toggled
+on and off. Bang the left input to output a list of the active cells
+in the currently active column. Send a column number to the right input
+to select the active column. Everything is 0-indexed. Arguments are
+cols \, rows and active cells \, see below right for argument example
+;
+#X obj -264 -192 cnv 15 100 20 empty empty tglgrid 20 12 0 16 -262144
+-13330 0;
+#X obj 168 -188 cnv 15 450 100 empty empty empty 20 12 0 14 -202753
+-66577 0;
+#N canvas 2 70 1916 1008 META 0;
+#X text 12 125 HELP_PATCH_AUTHORS "pd meta" information added by Jonathan
+Wilkes for Pd version 0.42.;
+#X text 12 25 LICENSE GPL v3;
+#X text 12 105 AUTHOR Nick Lanham;
+#X text 12 5 KEYWORDS control grid toggle;
+#X text 12 45 DESCRIPTION a grid of toggable cells;
+#X text 12 65 INLET_0 bang - output active column;
+#X text 12 85 INLET_1 int - select active column;
+#X restore 652 -108 pd META;
+#N canvas 149 98 507 479 arguments 0;
+#X obj 59 253 tglgrid 2 3 0t0t00 25 5 #ac0000 #D9D9D9;
+#X text 129 255 <- tglgrid 2 3 0x0x00 25 5 #AC0000 #D9D9D9;
+#X text 52 107 Default size is 16x16 \, cell size 20 and spacing 2
+;
+#X text 51 54 Argument list is as follows:;
+#X text 53 214 Colors should be specified in #XXXXXX form.;
+#X obj 16 26 cnv 15 100 20 empty empty Arguments 20 12 0 16 -262144
+-13330 0;
+#X text 50 72 [# of columns] [# of rows] [toggled cells] [cell size]
+[cell spacing] [toggled fill color] [untoggled fill color];
+#X text 52 129 The toggled cells can be a number or a string. If it
+is a number then 0 means all untoggled \, anything else means all toggeled.
+As a string \, it is a sequence of 0s for off cells and any other character
+for on cells (use a letter otherwise pd will think you're typing a
+number). The second character is the cell in the first column second
+row and so on.;
+#X obj 60 375 tglgrid 2 2 xxxx 20 2 #909090 #FFFFFF;
+#X text 116 367 <- tglgrid 2 2 1;
+#X restore 399 -145 pd arguments;
+#X text 248 -145 Details about arguments:;
+#X text 180 -182 Right click for properties such as color \, cellsize
+\, and cell spacing;
+#N canvas 71 64 1067 328 messages 0;
+#X obj 580 94 tglgrid 3 3 000000000 20 2 #109090 #FFFFFF;
+#X obj 9 12 cnv 15 100 20 empty empty Messages 20 12 0 16 -262144 -13330
+0;
+#X text 35 38 The following messages are supported \; \; tgl col row:
+toggle the state of a cell \; \; on col row: toggle a cell to on \;
+\; off col row: toggle a cell to off \; \; say col row: output a 1
+at second outlet if specified cell is on \, otherwise output a 0 at
+second outlet \; \; csay col: output specified column on first outlet
+\; \; rsay row: output specified row on first outlet \; \; size columns
+rows: resize the grid to specified dimentions. Existing cells will
+maintain their toggled state \, new cells will be untoggled \;;
+#X floatatom 708 223 5 0 0 0 - - -, f 5;
+#X obj 516 222 print tglgrid-help;
+#X msg 709 55 size 4 5;
+#X msg 709 78 size 3 3;
+#X msg 467 77 say 0 2;
+#X msg 490 48 tgl 0 2;
+#X msg 539 18 on 0 2;
+#X msg 567 42 off 0 2;
+#X msg 648 23 csay 0;
+#X msg 643 57 rsay 2;
+#X msg 929 17 clear;
+#X msg 894 18 all;
+#X text 866 41 sshader;
+#X connect 0 0 4 0;
+#X connect 0 1 3 0;
+#X connect 5 0 0 0;
+#X connect 6 0 0 0;
+#X connect 7 0 0 0;
+#X connect 8 0 0 0;
+#X connect 9 0 0 0;
+#X connect 10 0 0 0;
+#X connect 11 0 0 0;
+#X connect 12 0 0 0;
+#X connect 13 0 0 0;
+#X connect 14 0 0 0;
+#X restore 399 -120 pd messages;
+#X text 176 -120 Messages that can be sent to a grid:;
+#X obj -275 -66 cnv 15 1000 730 empty empty empty 20 12 0 14 -241300
+-66577 0;
+#X obj -101 150 tglgrid 16 16 0000000000000000000000000000000000000000000000x000000000000000x000000x00000000x000000x0000x0000000000000000000000000000000000000000x00x0000000000x000000000xx0x0000000000000000000x000000x00x0000000000000000000000000x00000000000000000000000000000000000000000
+20 2 #1b3090 #e8e84c;
+#X obj -101 75 t b b;
+#X obj -101 7 tgl 15 0 empty empty empty 17 7 0 10 -262144 -1 -1 0
+1;
+#X msg 246 64 reset;
+#X obj -101 546 unpack f f f f f f f f f f f f f f f f;
+#X obj -101 638 noteout 1;
+#X obj -101 41 metro 500;
+#X obj -101 605 makenote 64 500;
+#X obj -91 109 hsl 330 20 0 15 0 0 empty empty empty -2 -8 0 10 -228856
+-258113 -1 15353 1;
+#X text 378 324 C pentatonic;
+#X obj 354 309 bng 15 250 50 0 empty empty empty 17 7 0 10 -262144
+-1 -1;
+#X msg 354 342 \; _tglgrid_pitches 0 36 38 40 43 45 48 50 52 55 57
+60 62 64 67 69 72;
+#X obj 61 576 table _tglgrid_pitches;
+#X obj -101 576 tabread _tglgrid_pitches;
+#X text 434 276 Change the playing scale here;
+#X text -267 132 A bang here triggers output for active column;
+#X text 273 145 Here you can select the active column (0-indexed).
+A value less than zero activates column 0 \, and a value greater than
+the number of columns \, the last column;
+#X text 255 144 <-;
+#X obj 101 513 print tglgrid-help;
+#X text -242 511 Output is a list of the selected cells in the active
+column. The bottom-most cell is 0;
+#X obj 353 521 bng 15 250 50 0 empty empty empty 17 7 0 10 -262144
+-1 -1;
+#X text 382 531 A pentatonic;
+#X msg 353 549 \; _tglgrid_pitches 0 33 35 36 40 41 45 47 48 52 53
+57 59 60 64 65 69;
+#X obj 367 -65 cnv 15 250 140 empty empty empty 20 12 0 14 -14482 -66577
+0;
+#X text 416 -63 An rtglgrid outputs row-wise;
+#X obj 393 -52 bng 15 250 50 0 empty empty empty 17 7 0 10 -262144
+-1 -1;
+#X obj 393 38 print rtglgrid-help;
+#X text -238 -44 Try connecting pd's midi to your favorite synth and
+then turning on the metro below. Then click some of the cells in the
+tglgrid. You can change the scale played by banging one of the pre-defined
+scales to the right.;
+#X obj 393 -22 rtglgrid 2 2 0xx0 20 2 #e0633e #0c8844;
+#X floatatom 448 -37 5 0 0 0 - - -, f 5;
+#X text 382 424 C minor pentatonic;
+#X obj 353 414 bng 15 250 50 0 empty empty empty 17 7 0 10 -262144
+-1 -1;
+#X msg 353 443 \; _tglgrid_pitches 0 36 39 41 43 46 48 51 53 55 58
+60 63 65 67 70 72;
+#X obj 300 309 loadbang;
+#X obj 246 92 creb/count 16;
+#X connect 10 0 14 0;
+#X connect 10 0 28 0;
+#X connect 11 0 10 0;
+#X connect 11 1 44 0;
+#X connect 12 0 16 0;
+#X connect 13 0 44 0;
+#X connect 14 0 23 0;
+#X connect 14 1 23 0;
+#X connect 14 2 23 0;
+#X connect 14 3 23 0;
+#X connect 14 4 23 0;
+#X connect 14 5 23 0;
+#X connect 14 6 23 0;
+#X connect 14 7 23 0;
+#X connect 14 8 23 0;
+#X connect 14 9 23 0;
+#X connect 14 10 23 0;
+#X connect 14 11 23 0;
+#X connect 14 12 23 0;
+#X connect 14 13 23 0;
+#X connect 14 14 23 0;
+#X connect 14 15 23 0;
+#X connect 16 0 11 0;
+#X connect 17 0 15 0;
+#X connect 17 1 15 1;
+#X connect 20 0 21 0;
+#X connect 23 0 17 0;
+#X connect 30 0 32 0;
+#X connect 35 0 38 0;
+#X connect 38 0 36 0;
+#X connect 39 0 38 1;
+#X connect 41 0 42 0;
+#X connect 43 0 21 0;
+#X connect 44 0 18 0;
+#X connect 44 0 10 1;
+#X coords 0 7990 1 7980 85 60 0;

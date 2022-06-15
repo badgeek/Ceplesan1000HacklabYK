@@ -1,0 +1,25 @@
+#N canvas 3 54 1265 718 10;
+#X obj 101 101 presets_abs_sv;
+#X text 344 101 Requirements: a folder called "presets" no-quotes must
+reside in the same location as the patch.;
+#X text 344 145 The hradio is the preset slots \, which actually can
+be any number of slots and is only used to write the filenames of the
+preset/text files and reload them accordingly.;
+#X text 344 202 S: Save L: Load;
+#X text 344 334 L-Outlet: sends a bang \, which must be wired to the
+L-Inlet;
+#X text 343 470 Since the control takes any number of input floats
+it can be used for both individual controls and entire rigs depending
+on just how much you want to "pack in" and "pack out".;
+#X text 346 555 -svanya;
+#X text 344 233 L-Inlet: pass in a list beginning with a bang \, wired
+from the L-Outlet \, and a f for each control that you wish to save
+;
+#X text 346 281 R-Inlet: must be a loadbang message with the name/root
+of the preset filenames \, ex. vcf;
+#X text 344 365 R-Outlet: sends a list of each of the controls out
+\, which can then be unpacked and distributed to the controls;
+#X text 344 409 For an example see \, presets_abs_sv_help_example which
+is wired into hardoff's DIY2 st-vcf in which case I packed the list
+directly from the controls;
+#X coords 0 -1 1 1 104 84 1 100 100;

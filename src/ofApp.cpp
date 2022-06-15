@@ -17,17 +17,15 @@
 void ofApp::setup()
 {
     ofEnableAlphaBlending();
-//    ofSetFrameRate();
     ofSetFrameRate(29);
     ofSetVerticalSync(true);
     ofToggleFullscreen();
 
-//    sender.setup(HOST, PORT);
-    jentikcam.setup();
+    _videoManager.setup();
 
     gui.setHeaderBackgroundColor(ofColor::black);
     gui.setBackgroundColor(ofColor::black);
-    gui.setup(jentikcam.parameters);
+    gui.setup(_videoManager.parameters);
     gui.add(btntest.setup("DESTROY"));
 
 
@@ -38,11 +36,7 @@ void ofApp::setup()
     ofAddListener(gui.savePressedE, this, &ofApp::guiSave);
     ofAddListener(gui.loadPressedE, this, &ofApp::guiLoad);
 
-//  sync.setup(jentikcam.parameters, 8888, "127.0.0.1", 9999);
-    //Add scene
-//    sceneManager.addScene(ofPtr<ofxScene>(new ImageScene("scene1.png")));
-    sceneManager.addScene(ofPtr<ofxScene>(new WebcamScene(&jentikcam)));
-//    sceneManager.addScene(ofPtr<ofxScene>(new ImageScene("scene2.png")));
+    sceneManager.addScene(ofPtr<ofxScene>(new WebcamScene(&_videoManager)));
 
     sceneManager.setTransitionDissolve();
     sceneManager.setSceneDuration(3,3);
@@ -63,6 +57,9 @@ void ofApp::setup()
     cout << ofGetHeight();
 
 
+    timer_current = 0;
+    timer_interval = 250;
+
 
 }
 
@@ -78,35 +75,32 @@ void ofApp::guiLoad(){
 
 void ofApp::update()
 {
-    jentikcam.update();
+    _videoManager.update();
     sceneManager.update();
 
     effectsFBO.begin();
-        sceneManager.draw();
+    sceneManager.draw();
     effectsFBO.end();
 
-//    sync.update();
 }
 
 
 void ofApp::draw()
 {
-//    warper.begin();	///all the things that are drawn AFTER ofxGLWarper's begin method are afected by it.
-//    warper.draw();
     ofBackground(0);
     fxGlitch.generateFx();
     effectsFBO.draw(0,0);
-//    warper.end();
-
     if(bGui) gui.draw();
-
 }
 
 void ofApp::keyPressed(int key)
 {
     switch (key){
+         case 'a':
+            _videoManager.addAnalyzer(mouseX, mouseY);
+            break;
         case 'c':
-            jentikcam.learnBackground();
+            _videoManager.learnBackground();
             break;
         case 'f':
             ofToggleFullscreen();

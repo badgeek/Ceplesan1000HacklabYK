@@ -14,16 +14,13 @@ struct struct_scene_jentik_assets {
 class WebcamScene : public ofxScene {
 public:
     bool bMask;
-    FrameDiffer fd;
     WebcamScene(videoManager * videoman){
         videoMan = videoman;
         bMask = true;
     }
 
     void setup(){
-        scene_jentik_assets.mask.load("jentik_mask.png");
-        fd.set(300, 50, 100, 200);
-        fd.setup();
+
     }
 
     void update(){
@@ -35,18 +32,9 @@ public:
             ofPushMatrix();
                 ofBackground(0);
                 videoMan->draw();
-                scene_jentik_assets.mask.draw(0,0);
+//                scene_jentik_assets.mask.draw(0,0);
             ofPopMatrix();
     }
-
-
-//    void keyPressed(int key)
-//    {
-
-//        if (key == 'm') {
-//            bMask = !bMask;
-//        }
-//    }
 
 private:
     videoManager * videoMan;

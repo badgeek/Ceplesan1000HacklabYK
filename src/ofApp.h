@@ -48,12 +48,16 @@ public:
 
     ofxSceneManager sceneManager;
 
-    videoManager jentikcam;
+    videoManager _videoManager;
 
     ofFbo effectsFBO;
     ofxPostGlitch fxGlitch;
     ofxOscSender sender;
     ofxGLWarper warper;
+
+
+    float timer_interval;
+    unsigned long long timer_current;
 
 
     bool bFullScreen;

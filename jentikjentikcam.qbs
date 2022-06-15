@@ -43,7 +43,8 @@ Project{
 'ofxEasing',
 'ofxBlobTracker',
 'ofxPostGlitch',
-'ofxGLWarper'
+'ofxGLWarper',
+            'ofxMSAInteractiveObject'
         ]
 
         // additional flags for the project. the of module sets some

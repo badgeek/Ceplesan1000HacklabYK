@@ -11,6 +11,22 @@ videoManager::videoManager()
 {
     bLearnBakground = true;
     threshold = 80;
+    countframediff = 0;
+
+}
+
+void videoManager::addAnalyzer(int mouseX, int mouseY)
+{
+    FrameDiffer* new_frame_diff = new FrameDiffer();
+    float ratio =  videoSource.getWidth()/videoSource.getHeight();
+
+    new_frame_diff->set(mouseX-50-param.ps3_draw_x, mouseY-50-param.ps3_draw_y, 100, 100);
+    new_frame_diff->sourceVideo = &videoSource;
+    new_frame_diff->videoQuadW = ofGetWidth();
+    new_frame_diff->videoQuadH = ofGetWidth()/ratio;
+    new_frame_diff->jelly_id = countframediff++;
+    new_frame_diff->setup();
+    _frameDifferCol.push_back(new_frame_diff);
 }
 
 void videoManager::setup()
@@ -27,8 +43,7 @@ void videoManager::setup()
     colorImg.allocate(CAM_W,CAM_H);
     grayImage.allocate(CAM_W,CAM_H);
     grayBg.allocate(CAM_W,CAM_H);
-    grayDiff.allocate(CAM_W,CAM_W);
-
+    grayDiff.allocate(CAM_W,CAM_H);
     videoSource.allocate(CAM_W, CAM_H, OF_IMAGE_COLOR);
 
     parameters.setName("IMGANALYZER");
@@ -48,14 +63,17 @@ void videoManager::setup()
 
     sender.setup(HOST, PORT);
 
+
+
+    timer_interval = 29;
+    timer_current =0;
+
 }
 
 
 void videoManager::listenerFunction(ofAbstractParameter& e){
-//do something
-    string param_name;
 
-//    auto ps3eye = jentikcam.ps3eye;
+    string param_name;
 
     param_name = e.getName();
 
@@ -128,14 +146,13 @@ void videoManager::learnBackground()
 
 void videoManager::update()
 {
-//    sync.update();
     grabber.update();
 
     if (grabber.isFrameNew())
     {
+        colorImg.setFromPixels(grabber.getPixels());
         videoSource.setFromPixels(grabber.getPixelsRef());
 
-        colorImg.setFromPixels(grabber.getPixels());
         grayImage = colorImg;
 
         if (bLearnBakground == true){
@@ -150,7 +167,6 @@ void videoManager::update()
         // also, find holes is set to true so we will get interior contours as well....
         contourFinder.findContours(grayDiff, 100, (CAM_W*CAM_H)/3, 10, false);	// find holes
 
-
         for (int i = 0; i < contourFinder.nBlobs; i++){
             ofxOscMessage m;
                     m.setAddress("/trowacv/jentik" + ofToString(i));
@@ -158,38 +174,69 @@ void videoManager::update()
                     m.addFloatArg(contourFinder.blobs[i].centroid.y);
                     sender.sendMessage(m, false);
         }
-//        if (isRecording)
-//        {
-//            auto frames = grabber.getGrabber<ofxPS3EyeGrabber>()->getAllFrames();
-
-//            for (auto& frame: frames)
-//            {
-//                ofTexture tex;
-//                tex.loadData(frame.pixels);
-//                frameBuffer.push_back(tex);
-//            }
-//        }
-
-
     }
 
+
+    for (int x = 0; x < _frameDifferCol.size(); x++)
+    {
+        _frameDifferCol.at(x)->setOffsetDraw(param.ps3_draw_x, param.ps3_draw_y);
+        if(_frameDifferCol.at(x)->deleteMe)
+        {
+            delete _frameDifferCol.at(x);
+            _frameDifferCol.erase(_frameDifferCol.begin()+x);
+        }
+    }
+
+    float timer_now = ofGetElapsedTimeMillis();
+
+    if((timer_now - timer_current) > 100   )
+    {
+        timer_current = timer_now;
+
+        ofxOscMessage m;
+        m.setAddress("/differ/magnitude");
+
+        for (int x = 0; x < _frameDifferCol.size(); x++)
+        {
+            m.addFloatArg(_frameDifferCol.at(x)->differenceVideo);
+        }
+
+        sender.sendMessage(m);
+
+        ofxOscMessage b;
+        b.setAddress("/differ/beat");
+
+        for (int x = 0; x < _frameDifferCol.size(); x++)
+        {
+            b.addFloatArg(_frameDifferCol.at(x)->beatDetected);
+        }
+
+        sender.sendMessage(b);
+
+    }
 }
 
 void videoManager::draw()
 {
+    float ratio =  videoSource.getWidth()/videoSource.getHeight();
+
     ofSetColor(255);
     ofPushMatrix();
-        ofTranslate(param.ps3_draw_x, param.ps3_draw_y);
-        ofScale(param.ps3_draw_scale);
-        colorImg.draw(0,0);
+      ofTranslate(param.ps3_draw_x, param.ps3_draw_y);
+//      ofScale(param.ps3_draw_scale);
+//      ofScale(ofGetWidth(), ofGetWidth()/ratio)
+        colorImg.draw(0,0,ofGetWidth(), ofGetWidth()/ratio);
         ofPushStyle();
             ofNoFill();
             ofSetLineWidth(3);
             ofSetColor(ofColor::white);
-//            ofSetHexColor(ofColor::green);
             for (int i = 0; i < contourFinder.nBlobs; i++){
-                    ofDrawRectangle(contourFinder.blobs[i].boundingRect);
+                ofRectangle test =  contourFinder.blobs[i].boundingRect;
+                test.setHeight(test.height/ratio);
+                    ofDrawRectangle(test);
              }
          ofPopStyle();
     ofPopMatrix();
+//    videoSource.draw(0,0,300,400);
+
 }

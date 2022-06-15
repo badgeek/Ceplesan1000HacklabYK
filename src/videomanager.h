@@ -8,6 +8,7 @@
 #include "ofxGui.h"
 #include "ofxPS3EyeGrabber.h"
 #include "ofxOsc.h"
+#include "framediffer.h"
 
 struct jentik_param{
     ofParameter<bool> ps3_autobalance;
@@ -33,6 +34,7 @@ public:
     ofParameterGroup parameters;
 
     videoManager();
+    void addAnalyzer(int mouseX, int mouseY);
     void setup();
     void update();
     void draw();
@@ -56,6 +58,7 @@ private:
 
     jentik_param param;
 
+    int                 countframediff;
     int                 threshold;
     bool                bLearnBakground;
     bool                bEnableGui;
@@ -65,6 +68,14 @@ private:
 
     /// The current frame in the buffer.
     std::size_t currentFrame = 0;
+
+    vector <FrameDiffer*> _frameDifferCol;
+
+
+    float timer_interval;
+    unsigned long long timer_current;
+
+
 };
 
 #endif // VIDEOMANAGER_H

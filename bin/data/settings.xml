@@ -22,6 +22,6 @@
 	<B>128</B>
 	<Threshold>80</Threshold>
 	<DrawX>0</DrawX>
-	<DrawY>0</DrawY>
+	<DrawY>-260</DrawY>
 	<DrawScale>2</DrawScale>
 </IMGANALYZER>
