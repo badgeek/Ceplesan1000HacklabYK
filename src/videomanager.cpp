@@ -165,7 +165,7 @@ void videoManager::update()
 
         // find contours which are between the size of 20 pixels and 1/3 the w*h pixels.
         // also, find holes is set to true so we will get interior contours as well....
-        contourFinder.findContours(grayDiff, 100, (CAM_W*CAM_H)/3, 10, false);	// find holes
+//        contourFinder.findContours(grayDiff, 100, (CAM_W*CAM_H)/3, 10, false);	// find holes
 
         for (int i = 0; i < contourFinder.nBlobs; i++){
             ofxOscMessage m;
